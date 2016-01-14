@@ -12,10 +12,12 @@
                  [prismatic/om-tools "0.3.12"]
                  [cljs-ajax "0.5.3"]
                  [cljsjs/highcharts "4.1.10-1"]
+                 [com.andrewmcveigh/cljs-time "0.4.0"]
                  [environ "1.0.1"]]
 
   :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-3"]]
+            [lein-figwheel "0.5.0-3"]
+            [lein-doo "0.1.6"]]
 
   :source-paths ["src"]
 
@@ -39,8 +41,13 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/weather_page.js"
                            :main weather-page.core
-                           :optimizations :whitespace
-                           :pretty-print false}}]}
+                           :optimizations :advanced
+                           :pretty-print false}}
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:output-to "resources/public/js/out/testable.js"
+                           :main weather-page.test-runner
+                           :optimizations :none}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              :server-port 3450
@@ -71,4 +78,6 @@
 
              ;; to configure a different figwheel logfile path
              ;; :server-logfile "tmp/logs/figwheel-logfile.log"
-             })
+             }
+  :doo {:build "test"})
+

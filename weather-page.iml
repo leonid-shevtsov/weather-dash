@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/dev-resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/resources/public/js" />
       <excludeFolder url="file://$MODULE_DIR$/resources/public/js/compiled" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
@@ -20,6 +21,7 @@
     <orderEntry type="library" name="Leiningen: cljsjs/jquery:1.11.3-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react:0.13.3-0" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.3" level="project" />
+    <orderEntry type="library" name="Leiningen: com.andrewmcveigh/cljs-time:0.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-clj:0.8.285" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-cljs:0.8.237" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-java:0.8.311" level="project" />
