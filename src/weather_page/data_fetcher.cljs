@@ -14,6 +14,7 @@
 (defn conditions-keys [units]
   {:time        #(tl/from-local-string (get % :observation_time_rfc822))
    :weather     #(get % :weather)
+   :icon        #(get % :icon)
    :temperature (float-key (if (= units :metric) :temp_c :temp_f))
    :feelslike   (float-key (if (= units :metric) :feelslike_c :feelslike_f))
    :wind        (float-key (if (= units :metric) :wind_kph :wind_mph))

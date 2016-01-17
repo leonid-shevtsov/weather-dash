@@ -3,11 +3,12 @@
             [om-tools.core :refer-macros [defcomponent]]
             [sablono.core :refer-macros [html]]
             [cljs-time.format :as tf]
-            [weather-page.logic :refer [condition-icon kph->beaufort]]
+            [weather-page.logic :refer [kph->beaufort]]
+            [weather-page.condition-icons :refer [condition-icons]]
             [weather-page.components.forecast-chart :refer [forecast-chart]]))
 
 (defcomponent
-  page [{:as data {location :location :keys [feelslike temperature wind wind_kph weather time]} :conditions} _owner]
+  page [{:as data {:keys [feelslike temperature wind wind_kph weather icon time]} :conditions} _owner]
   (render [_]
     (if time
           (html [:div
@@ -21,9 +22,7 @@
                    ]
                   [:.forecast-block
                    [:.huge
-                    [:i {:class (str "wi wi-" (condition-icon {:location location
-                                                               :time time
-                                                               :weather weather}))}]]
+                    [:i {:class (str "wi wi-" (get condition-icons icon "alien"))}]]
                    [:.details weather]
                    ]
                   [:.forecast-block

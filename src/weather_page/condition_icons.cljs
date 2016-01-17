@@ -1,55 +1,41 @@
 (ns weather-page.condition-icons)
 
-(def condition-icons {"Drizzle"                       ["day-sprinkle" "night-alt-sprinkle"]
-                      "Rain"                          ["day-rain" "night-alt-rain"]
-                      "Snow"                          ["day-snow" "night-alt-snow"]
-                      "Snow Grains"                   ["day-snow" "night-alt-snow"]
-                      "Ice Crystals"                  ["day-snow" "night-alt-snow"]
-                      "Ice Pellets"                   ["day-snow" "night-alt-snow"]
-                      "Hail"                          ["day-hail" "night-alt-hail"]
-                      "Mist"                          ["day-fog" "night-fog"]
-                      "Fog"                           ["day-fog" "night-fog"]
-                      "Fog Patches"                   ["day-fog" "night-fog"]
-                      "Smoke"                         "smoke"
-                      "Volcanic Ash"                  "smoke"
-                      "Widespread Dust"               "dust"
-                      "Sand"                          "sandstorm"
-                      "Haze"                          "day-haze"
-                      "Spray"                         ["day-sprinkle" "night-alt-sprinkle"]
-                      "Dust Whirls"                   "dust"
-                      "Sandstorm"                     "sandstorm"
-                      "Low Drifting Snow"             ["day-snow" "night-alt-snow"]
-                      "Low Drifting Widespread Dust"  "dust"
-                      "Low Drifting Sand"             "sandstorm"
-                      "Blowing Snow"                  ["day-snow-wind" "night-alt-snow-wind"]
-                      "Blowing Widespread Dust"       "dust"
-                      "Blowing Sand"                  "sandstorm"
-                      "Rain Mist"                     ["day-sprinkle" "night-alt-sprinkle"]
-                      "Rain Showers"                  ["day-rain" "night-alt-rain"]
-                      "Snow Showers"                  ["day-snow" "night-alt-snow"]
-                      "Snow Blowing Snow Mist"        ["day-snow" "night-alt-snow"]
-                      "Ice Pellet Showers"            ["day-snow" "night-alt-snow"]
-                      "Hail Showers"                  ["day-hail" "night-alt-hail"]
-                      "Small Hail Showers"            ["day-hail" "night-alt-hail"]
-                      "Thunderstorm"                  ["day-thunderstorm" "night-alt-thunderstorm"]
-                      "Thunderstorms and Rain"        ["day-thunderstorm" "night-alt-thunderstorm"]
-                      "Thunderstorms and Snow"        ["day-snow-thunderstorm" "night-alt-snow-thunderstorm"]
-                      "Thunderstorms and Ice Pellets" ["day-snow-thunderstorm" "night-alt-snow-thunderstorm"]
-                      "Thunderstorms with Hail"       ["day-sleet-storm" "night-alt-sleet-storm"]
-                      "Thunderstorms with Small Hail" ["day-sleet-storm" "night-alt-sleet-storm"]
-                      "Freezing Drizzle"              ["day-rain-mix" "night-alt-rain-mix"]
-                      "Freezing Rain"                 ["day-rain-mix" "night-alt-rain-mix"]
-                      "Freezing Fog"                  ["day-fog" "night-fog"]
-                      "Patches of Fog"                ["day-fog" "night-fog"]
-                      "Shallow Fog"                   ["day-fog" "night-fog"]
-                      "Partial Fog"                   ["day-fog" "night-fog"]
-                      "Overcast"                      "cloudy"
-                      "Clear"                         ["day-sunny" "night-clear"]
-                      "Partly Cloudy"                 ["day-cloudy" "night-alt-cloudy"]
-                      "Mostly Cloudy"                 ["day-cloudy" "night-alt-cloudy"]
-                      "Scattered Clouds"              ["day-cloudy" "night-alt-cloudy"]
-                      "Small Hail"                    ["day-hail" "night-alt-hail"]
-                      "Squalls"                       ["day-windy" "windy"]
-                      "Funnel Cloud"                  "tornado"
-                      "Unknown Precipitation"         "alien"
-                      "Unknown"                       "alien"})
+(def condition-icons
+  {"chanceflurries" "day-snow"
+   "chancerain" "day-rain"
+   "chancesleet" "day-sleet"
+   "chancesnow" "day-snow"
+   "chancetstorms" "day-lightning"
+   "clear" "day-sunny"
+   "cloudy" "cloudy"
+   "flurries" "snow"
+   "fog" "fog"
+   "hazy" "day-haze"
+   "mostlycloudy" "day-cloudy"
+   "mostlysunny" "day-cloudy"
+   "nt_chanceflurries" "night-alt-snow"
+   "nt_chancerain" "night-alt-rain"
+   "nt_chancesleet" "night-alt-sleet"
+   "nt_chancesnow" "night-alt-snow"
+   "nt_chancetstorms" "night-alt-lightning"
+   "nt_clear" "night-clear"
+   "nt_cloudy" "cloudy"
+   "nt_flurries" "snow"
+   "nt_fog" "fog"
+   "nt_hazy" "dust"
+   "nt_mostlycloudy" "night-alt-cloudy"
+   "nt_mostlysunny" "night-alt-cloudy"
+   "nt_partlycloudy" "night-alt-cloudy"
+   "nt_partlysunny" "night-alt-cludy"
+   "nt_rain" "rain"
+   "nt_sleet" "sleet"
+   "nt_snow" "snow"
+   "nt_sunny" "night-clear"
+   "nt_tstorms" "night-alt-lightning"
+   "partlycloudy" "day-cloudy"
+   "partlysunny" "day-cloudy"
+   "rain" "rain"
+   "sleet" "sleet"
+   "snow" "snow"
+   "sunny" "day-sunny"
+   "tstorms" "day-lightning"})

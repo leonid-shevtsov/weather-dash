@@ -1,6 +1,5 @@
 (ns weather-page.logic
   (:require [weather-page.sunrise :refer [rising-time setting-time]]
-            [weather-page.condition-icons :refer [condition-icons]]
             [cljs-time.core :as t]))
 
 (defn sunrise-params [location date]
@@ -9,21 +8,6 @@
                      :year         (t/year date)
                      :local-offset (.getTimezoneOffset date)}]
     (merge location date-params)))
-
-(defn condition-icon [{:keys [location time weather]}]
-  (when weather
-    (let [sunrise-params (sunrise-params location time)
-          sunrise (rising-time sunrise-params)
-          sunset (setting-time sunrise-params)
-          current-time (+ (t/hour time) (/ (t/minutes time) 60))
-          is-daytime (< sunrise current-time sunset)
-          weather-norm (.replace weather #"^(Light|Heavy) " "")
-          icon (first (condition-icons weather-norm))]
-      (if (coll? icon)
-        (if is-daytime
-          (first icon)
-          (last icon))
-        icon))))
 
 ; 1st number is the upper limit in kph
 ; 2nd number is the number on the scale

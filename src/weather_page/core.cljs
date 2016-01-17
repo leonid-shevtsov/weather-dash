@@ -9,7 +9,7 @@
 
 (defonce app-state
          (atom {:config {:api-key    (config :api-key)
-                         :lang       (config :lang)
+                         :lang       (config :weather-lang)
                          :station-id (config :station-id)
                          :units      :metric}}
                {:location   {:latitude  0
