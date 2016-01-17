@@ -21,7 +21,8 @@ body {
 
 .huge {
     padding-top: 5px;
-    font-size: 90px
+    font-size: 90px;
+    padding-bottom: 10px;
 }
 
 .details {
