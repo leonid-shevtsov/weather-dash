@@ -26,7 +26,11 @@
    :feelslike (float-key :feelslike units)
    :wind (float-key :wspd units)
    :precipitation (float-key :pop)
-   :cloudcover (float-key :sky)})
+   :cloudcover (float-key :sky)
+   ; these two are always in metric because I need them for calculation
+   ; rather than displays
+   :snow-amount (float-key :snow :metric)
+   :rain-amount (float-key :qpf :metric)})
 
 (defn extract-keys [data keys]
   (reduce #(assoc %1 (get %2 0) ((get %2 1) data)) {} keys))
