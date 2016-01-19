@@ -11,16 +11,16 @@ body {
 
 .forecast {
     height: 160px;
+    overflow: hidden;
 }
 
 .forecast-block {
     width: 160px;
     text-align: center;
-    float: left
+    float: left;
 }
 
 .huge {
-    padding-top: 5px;
     font-size: 90px;
     padding-bottom: 10px;
 }
@@ -37,4 +37,16 @@ body {
 .updated-at {
     font-size: 8px;
     text-align: center;
+}
+
+.form-label {
+    margin-top: 1em;
+}
+
+form {
+    padding: 5px;
+}
+
+button {
+    padding: 5px;
 }

@@ -49,12 +49,12 @@
     (map #(extract-keys % (forecast-keys units)) forecast-data)))
 
 (defn update-conditions [state-cursor response]
-  (let [units (get-in state-cursor [:config :units])
+  (let [units (keyword (get-in state-cursor [:config :units]))
         conditions (extract-conditions units response)]
     (om/transact! state-cursor #(merge % conditions))))
 
 (defn update-forecast [state-cursor response]
-  (let [units (get-in state-cursor [:config :units])
+  (let [units (keyword (get-in state-cursor [:config :units]))
         forecast (extract-forecast units response)]
     (om/update! state-cursor :forecast forecast)))
 
@@ -77,11 +77,19 @@
 (declare fetch-data-periodically)
 
 (defn store-data-and-reschedule [{:keys [state-cursor updater timeout] :as options} response]
-  (updater state-cursor response)
-  (js/setTimeout #(fetch-data-periodically options) timeout))
+  (if-let [error (get-in response [:response :error :description])]
+    (om/update! state-cursor :api-error error)
+    (do
+      (updater state-cursor response)
+      (js/setTimeout #(fetch-data-periodically options) timeout))))
 
-(defn fetch-data-periodically [{:keys [state-cursor url-fn] :as options}]
-  (GET (url-fn (:config state-cursor))
+(defn handle-errors [{:keys [state-cursor] :as options} _response]
+  (om/update! state-cursor :error "Error contacting the WeatherUnderground server. Retrying in 1 minute...")
+  (js/setTimeout #(fetch-data-periodically options) (* 60 1000)))
+
+(defn fetch-data-periodically [{:keys [url] :as options}]
+  (GET url
        {:response-format :json
         :keywords?       true
-        :handler         #(store-data-and-reschedule options %)}))
+        :handler         #(store-data-and-reschedule options %)
+        :error-handler   #(handle-errors options %)}))

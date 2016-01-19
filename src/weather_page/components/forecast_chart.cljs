@@ -51,7 +51,7 @@
         snow-color [175 175 175]
         min-precipitation 0
         precipitation-range 16
-        min-transparency 0.2
+        min-transparency 0.5
         max-transparency 0.9
         transparency-range (- max-transparency min-transparency)
         total-amount (* 1.0 (+ rain-amount snow-amount))]
@@ -64,8 +64,7 @@
                              (- min-precipitation)
                              (/ precipitation-range)
                              (* transparency-range)
-                             (+ min-transparency))
-            _ (println transparency)]
+                             (+ min-transparency))]
         (color->rgba color transparency)))))
 
 (defn precipitation-zones [forecast]

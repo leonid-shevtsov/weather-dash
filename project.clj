@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.189"]
+                 [org.clojure/clojurescript "1.7.228"]
                  [org.clojure/core.async "0.2.374"]
                  [sablono "0.3.6"]
                  [org.omcljs/om "0.9.0"]
@@ -13,6 +13,7 @@
                  [cljs-ajax "0.5.3"]
                  [cljsjs/highcharts "4.1.10-1"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
+                 [secretary "1.2.3"]
                  [environ "1.0.1"]]
 
   :plugins [[lein-cljsbuild "1.1.2"]
@@ -27,7 +28,7 @@
               [{:id "dev"
                 :source-paths ["src"]
 
-                :figwheel {:on-jsload "weather-page.core/on-js-reload"}
+                ;:figwheel {:on-jsload "weather-page.core/on-js-reload"}
 
                 :compiler {:main weather-page.core
                            :asset-path "js/compiled/out"
