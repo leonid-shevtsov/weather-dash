@@ -7,8 +7,10 @@
                 :config {:api-key    (config :api-key)
                          :lang       (config :weather-lang)
                          :station-id (config :station-id)
-                         :units      "metric"}}
-               {:location   {:latitude  0
+                         :units      "metric"}
+                :fetch {}
+                :fetch-timeout {}
+                :location   {:latitude  0
                              :longitude 0}
                 :conditions {:time        nil
                              :weather     ""

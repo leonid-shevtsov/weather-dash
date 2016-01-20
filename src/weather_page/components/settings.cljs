@@ -1,15 +1,20 @@
 (ns weather-page.components.settings
   (:require [om.core :as om]
             [om-tools.core :refer-macros [defcomponent]]
-            [sablono.core :refer-macros [html]]))
+            [sablono.core :refer-macros [html]]
+            [weather-page.routing :refer [nav!]]
+            [weather-page.state :refer [app-state]]
+            [weather-page.data-fetcher :refer [start-fetching stop-fetching]]))
 
 (defn input-updater-fn [cursor path]
   (fn [event]
     (om/update! cursor path (.. event -target -value))))
 
-(defn apply-settings [config event]
+(defn apply-settings [event]
   (.preventDefault event)
-  (println config))
+  (stop-fetching)
+  (start-fetching)
+  (nav! "/"))
 
 (defcomponent settings [{{:keys [api-key station-id lang units] :as config} :config} _owner]
   (render [_]
@@ -21,7 +26,7 @@
            [:div [:input {:value station-id :on-change (input-updater-fn config :station-id)}]]
            [:.form-label [:label "Language"]]
            [:div
-            [:select {:value lang :on-change (input-updater-fn config :select)}
+            [:select {:value lang :on-change (input-updater-fn config :lang)}
              [:option {:value "EN"} "English"]
              [:option {:value "RU"} "Russian"]]]
            [:.form-label [:label "Units"]]
@@ -36,4 +41,4 @@
                      :value     "english"
                      :checked   (= units "english")
                      :on-change (input-updater-fn config :units)}] " Imperial "]
-           [:.form-label [:button {:on-click (partial apply-settings config)} "Apply settings"]]])))
+           [:.form-label [:button {:on-click apply-settings} "Apply settings"]]])))

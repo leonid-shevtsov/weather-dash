@@ -6,6 +6,9 @@
             [weather-page.sunrise :refer [rising-time setting-time]]
             [weather-page.charts :refer [highchart]]))
 
+(defonce setup-highcharts
+         (.setOptions js/Highcharts (clj->js {:global {:useUTC false} :lang {:shortMonths ["Янв" "Фев" "Мар" "Апр" "Май" "Июн" "Июл" "Авг" "Сен" "Окт" "Ноя" "Дек"]}})))
+
 (defn average-color [color-1 color-2 fraction-1 fraction-2]
   (map #(Math/round (+ (* %1 fraction-1)
                        (* %2 fraction-2)))
@@ -99,6 +102,7 @@
                                               :animation false}
                                       :legend {:enabled false}
                                       :tooltip {:enabled false}
+                                      :credits {:enabled false}
                                       :title {:text nil}
                                       :xAxis {:type "datetime"
                                               :plotBands plot-bands

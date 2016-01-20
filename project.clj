@@ -7,6 +7,8 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
                  [org.clojure/core.async "0.2.374"]
+                 ;[cljsjs/react "0.14.3-0"]
+                 ;[cljsjs/react-dom "0.14.3-1"]
                  [sablono "0.3.6"]
                  [org.omcljs/om "0.9.0"]
                  [prismatic/om-tools "0.3.12"]
