@@ -50,25 +50,13 @@
     (map (fn [time] {:value time :color "#777" :width 2 :zIndex 3}) days)))
 
 (defn precipitation-shade [{:keys [rain-amount snow-amount]}]
-  (let [rain-color [0 115 255]
-        snow-color [175 175 175]
-        min-precipitation 0
-        precipitation-range 16
-        min-transparency 0.5
-        max-transparency 0.9
-        transparency-range (- max-transparency min-transparency)
+  (let [light-color [0 115 255]
+        intense-color [199 0 174]
+        precipitation-treshold 10
         total-amount (* 1.0 (+ rain-amount snow-amount))]
-    (if (= total-amount 0)
-      (color->rgba rain-color min-transparency)
-      (let [snow-fraction (/ snow-amount total-amount)
-            rain-fraction (/ rain-amount total-amount)
-            color (average-color rain-color snow-color rain-fraction snow-fraction)
-            transparency (-> total-amount
-                             (- min-precipitation)
-                             (/ precipitation-range)
-                             (* transparency-range)
-                             (+ min-transparency))]
-        (color->rgba color transparency)))))
+    (if (>= total-amount precipitation-treshold)
+      (color->rgba intense-color 0.5)
+      (color->rgba light-color 0.5))))
 
 (defn precipitation-zones [forecast]
   (let [color (map precipitation-shade forecast)
@@ -133,7 +121,7 @@
                                                    [{:data prec-line
                                                      :name "Precipitation"
                                                      :yAxis 1
-                                                     :type "area"
+                                                     :type "areaspline"
                                                      :zones prec-zones
                                                      :zoneAxis "x"}
                                                     {:data temp-line
@@ -144,4 +132,5 @@
                                                     {:data feels-line
                                                      :name "FeelsLike"
                                                      :type "spline"
+                                                     :lineWidth 2
                                                      :color "rgba(240,50,0, 0.5)"}])}})))))

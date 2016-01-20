@@ -16,7 +16,7 @@
                  [cljsjs/highcharts "4.1.10-1"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
                  [secretary "1.2.3"]
-                 [environ "1.0.1"]]
+                 [alandipert/storage-atom "1.2.4"]]
 
   :plugins [[lein-cljsbuild "1.1.2"]
             [lein-figwheel "0.5.0-3"]
@@ -30,7 +30,7 @@
               [{:id "dev"
                 :source-paths ["src"]
 
-                ;:figwheel {:on-jsload "weather-page.core/on-js-reload"}
+                :figwheel {}
 
                 :compiler {:main weather-page.core
                            :asset-path "js/compiled/out"

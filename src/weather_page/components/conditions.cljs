@@ -3,23 +3,22 @@
             [sablono.core :refer-macros [html]]
             [cljs-time.format :as tf]
             [weather-page.logic :refer [kph->beaufort]]
-            [weather-page.condition-icons :refer [condition-icons]]))
+            [weather-page.condition-icons :refer [condition-icon]]))
 
 (defn capitalize [string]
   (let [downcase (.toLocaleLowerCase string)]
     (apply str (.toLocaleUpperCase (first downcase)) (rest downcase))))
 
-(defcomponent conditions [{:keys [feelslike temperature wind wind_kph weather icon time]} _owner]
+(defcomponent conditions [{:keys [feelslike temperature wind wind_kph weather icon_url]} _owner]
   (render [_]
     (html [:.forecast
-           [:.updated-at (tf/unparse (tf/formatter "HH:mm") time)]
            [:.forecast-block
             [:.huge temperature "°"]
             [:.details
              "Кажется: " [:b feelslike "°"]]]
            [:.forecast-block
             [:.huge
-             [:i {:class (str "wi wi-" (get condition-icons icon "alien"))}]]
+             [:i {:class (str "wi wi-" (condition-icon icon_url))}]]
             [:.details (capitalize weather)]]
            [:.forecast-block
             [:.huge

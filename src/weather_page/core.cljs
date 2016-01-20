@@ -2,7 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [weather-page.state :refer [app-state app-cursor]]
             [weather-page.components.router :refer [router]]
-            [weather-page.data-fetcher :refer [start-fetching]]))
+            [weather-page.data-fetcher :refer [can-fetch? start-fetching]]))
 
 (enable-console-print!)
 
@@ -10,4 +10,4 @@
 
 ; Must only happen after om/root has been called
 (defonce fetch-default
-         (when (get-in app-cursor [:config :api-key]) (start-fetching)))
+         (when (can-fetch?) (start-fetching)))

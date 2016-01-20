@@ -15,7 +15,7 @@
 (defn conditions-keys [units]
   {:time        #(tl/from-local-string (get % :observation_time_rfc822))
    :weather     #(get % :weather)
-   :icon        #(get % :icon)
+   :icon_url        #(get % :icon_url)
    :temperature (float-key (if (= units :metric) :temp_c :temp_f))
    :feelslike   (float-key (if (= units :metric) :feelslike_c :feelslike_f))
    :wind        (float-key (if (= units :metric) :wind_kph :wind_mph))
@@ -118,3 +118,6 @@
                                     (zipmap (keys fetches) (repeat false))))
   (doseq [timeout-id (vals (:fetch-timeout @app-cursor))]
     (js/clearTimeout timeout-id)))
+
+(defn can-fetch? []
+  (and (get-in @app-cursor [:config :api-key]) (get-in @app-cursor [:config :station-id])))

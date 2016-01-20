@@ -39,3 +39,9 @@
    "snow" "snow"
    "sunny" "day-sunny"
    "tstorms" "day-lightning"})
+
+(defn condition-icon [icon-url]
+  (when icon-url
+    (let [match (.match icon-url #"/([^/]+)\.gif$")
+          icon-name (get match 1)]
+      (get condition-icons icon-name "alien"))))
