@@ -88,6 +88,7 @@
   (if-let [error (get-in response [:response :error :description])]
     (om/update! state-cursor :api-error error)
     (do
+      (om/transact! state-cursor #(assoc % :error nil :api-error nil))
       (updater state-cursor response)
       (delayed-fetch options timeout))))
 
