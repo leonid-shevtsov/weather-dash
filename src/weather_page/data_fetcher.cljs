@@ -3,7 +3,9 @@
             [om.core :as om]
             [cljs-time.coerce :as tc]
             [cljs-time.local :as tl]
-            [weather-page.state :refer [app-cursor]]))
+            [weather-page.state :refer [app-cursor]]
+            [cljs-time.core :as t]
+            [cljs-time.format :as tf]))
 
 (defn float-key [& key-path]
   (fn [hash-map] (js/parseFloat (get-in hash-map key-path))))
@@ -13,25 +15,25 @@
    :longitude (float-key :observation_location :longitude)})
 
 (defn conditions-keys [units]
-  {:time        #(tl/from-local-string (get % :observation_time_rfc822))
+  {:time        #(t/to-default-time-zone (tf/parse (get % :observation_time_rfc822)))
    :weather     #(get % :weather)
-   :icon_url        #(get % :icon_url)
+   :icon_url    #(get % :icon_url)
    :temperature (float-key (if (= units :metric) :temp_c :temp_f))
    :feelslike   (float-key (if (= units :metric) :feelslike_c :feelslike_f))
    :wind        (float-key (if (= units :metric) :wind_kph :wind_mph))
    :wind_kph    (float-key :wind_kph)})                     ; for Beaufort scale
 
 (defn forecast-keys [units]
-  {:time #(tc/to-local-date-time (tc/from-long (* 1000 (js/parseInt (get-in % [:FCTTIME :epoch]) 10))))
-   :temperature (float-key :temp units)
-   :feelslike (float-key :feelslike units)
-   :wind (float-key :wspd units)
+  {:time          #(t/to-default-time-zone (tc/from-long (* 1000 (js/parseInt (get-in % [:FCTTIME :epoch]) 10))))
+   :temperature   (float-key :temp units)
+   :feelslike     (float-key :feelslike units)
+   :wind          (float-key :wspd units)
    :precipitation (float-key :pop)
-   :cloudcover (float-key :sky)
+   :cloudcover    (float-key :sky)
    ; these two are always in metric because I need them for calculation
    ; rather than displays
-   :snow-amount (float-key :snow :metric)
-   :rain-amount (float-key :qpf :metric)})
+   :snow-amount   (float-key :snow :metric)
+   :rain-amount   (float-key :qpf :metric)})
 
 (defn extract-keys [data keys]
   (reduce #(assoc %1 (get %2 0) ((get %2 1) data)) {} keys))

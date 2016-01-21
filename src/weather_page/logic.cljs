@@ -6,7 +6,7 @@
   (let [date-params {:month        (t/month date)
                      :day          (t/day date)
                      :year         (t/year date)
-                     :local-offset (.getTimezoneOffset date)}]
+                     :local-offset (- (/ (.getTimezoneOffset date) 60))}]
     (merge location date-params)))
 
 ; 1st number is the upper limit in kph

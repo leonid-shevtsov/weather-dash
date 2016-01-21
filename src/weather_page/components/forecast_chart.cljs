@@ -27,7 +27,9 @@
     {:color (color->rgba color 1.0) :from time :to end-time}))
 
 (defn forecast-days [forecast]
-  (distinct (map #(t/at-midnight (:time %)) forecast)))
+  (map (comp t/to-default-time-zone tc/from-long)
+       (distinct (map (comp tc/to-long t/at-midnight :time)
+                        forecast))))
 
 (defn forecast-bands [location forecast]
   (let [days (forecast-days forecast)
@@ -67,7 +69,7 @@
   (reify
     om/IRender
     (render [_]
-      (let [time-start (-> forecast first :time tc/to-long)
+      (let [time-start (-> forecast first :time t/to-default-time-zone tc/to-long)
             time-interval (* 3600 1000)
             temp-line (map :temperature forecast)
             feels-line (map :feelslike forecast)
@@ -77,60 +79,60 @@
             plot-lines (forecast-lines forecast)
             temp-min (- (apply min (concat temp-line feels-line)) 1)
             temp-max (+ (apply max (concat temp-line feels-line)) 1)
-            common-series-config {:animation false
-                                  :pointStart time-start
-                           :pointInterval time-interval
-                           :marker {:enabled false}
-                           :enableMouseTracking false}
+            common-series-config {:animation           false
+                                  :pointStart          time-start
+                                  :pointInterval       time-interval
+                                  :marker              {:enabled false}
+                                  :enableMouseTracking false}
             label-style {:color :white :font-weight :bold}]
         (om/build highchart {:width  480 :height 160
-                             :config {:chart {:type "line"
-                                              :alignTicks false
-                                              :backgroundColor "black"
-                                              :animation false}
-                                      :legend {:enabled false}
+                             :config {:chart   {:type            "line"
+                                                :alignTicks      false
+                                                :backgroundColor "black"
+                                                :animation       false}
+                                      :legend  {:enabled false}
                                       :tooltip {:enabled false}
                                       :credits {:enabled false}
-                                      :title {:text nil}
-                                      :xAxis {:type "datetime"
-                                              :plotBands plot-bands
-                                              :plotLines plot-lines
-                                              :labels {:x 60 :overflow "justify" :style label-style}
-                                              :minPadding 0
-                                              :maxPadding 0
-                                              :tickInterval (* 86400 1000)}
-                                      :yAxis [{:title "Temperature"
-                                               :allowDecimals false
-                                               :labels {:style label-style
-                                                        :format "{value}°"}
-                                               :min temp-min
-                                               :max temp-max
-                                               :startOnTick false
-                                               :endOnTick false
-                                               :tickInterval 5}
-                                              {:title "Chance of rain"
-                                               :opposite true
-                                               :visible false
-                                               :max 100
-                                               :min 0
-                                               :tickAmount 5
-                                               :gridLineWidth 0
-                                               :labels {:style label-style
-                                                        :format "{value}%"}}]
-                                      :series (map #(merge common-series-config %)
-                                                   [{:data prec-line
-                                                     :name "Precipitation"
-                                                     :yAxis 1
-                                                     :type "areaspline"
-                                                     :zones prec-zones
-                                                     :zoneAxis "x"}
-                                                    {:data temp-line
-                                                     :name "Temperature"
-                                                     :type "spline"
-                                                     :lineWidth 5
-                                                     :color "rgb(195,5,0)"}
-                                                    {:data feels-line
-                                                     :name "FeelsLike"
-                                                     :type "spline"
-                                                     :lineWidth 2
-                                                     :color "rgba(240,50,0, 0.5)"}])}})))))
+                                      :title   {:text nil}
+                                      :xAxis   {:type         "datetime"
+                                                :plotBands    plot-bands
+                                                :plotLines    plot-lines
+                                                :labels       {:x 60 :overflow "justify" :style label-style}
+                                                :minPadding   0
+                                                :maxPadding   0
+                                                :tickInterval (* 86400 1000)}
+                                      :yAxis   [{:title         "Temperature"
+                                                 :allowDecimals false
+                                                 :labels        {:style  label-style
+                                                                 :format "{value}°"}
+                                                 :min           temp-min
+                                                 :max           temp-max
+                                                 :startOnTick   false
+                                                 :endOnTick     false
+                                                 :tickInterval  5}
+                                                {:title         "Chance of rain"
+                                                 :opposite      true
+                                                 :visible       false
+                                                 :max           100
+                                                 :min           0
+                                                 :tickAmount    5
+                                                 :gridLineWidth 0
+                                                 :labels        {:style  label-style
+                                                                 :format "{value}%"}}]
+                                      :series  (map #(merge common-series-config %)
+                                                    [{:data     prec-line
+                                                      :name     "Precipitation"
+                                                      :yAxis    1
+                                                      :type     "areaspline"
+                                                      :zones    prec-zones
+                                                      :zoneAxis "x"}
+                                                     {:data      temp-line
+                                                      :name      "Temperature"
+                                                      :type      "spline"
+                                                      :lineWidth 5
+                                                      :color     "rgb(195,5,0)"}
+                                                     {:data      feels-line
+                                                      :name      "FeelsLike"
+                                                      :type      "spline"
+                                                      :lineWidth 2
+                                                      :color     "rgba(240,50,0, 0.5)"}])}})))))
