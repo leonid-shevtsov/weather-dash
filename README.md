@@ -1,39 +1,15 @@
-# weather-page
+# Weather page
 
-FIXME: Write a one-line description of your library/project.
+This is a weather page designed for use in various hardware informer screens.  I use it on an iPod Touch 4.
 
-## Overview
+## Usage
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+1. Go to the [WUnderground API page](http://www.wunderground.com/weather/api/) and create an "Anvil Developer" API key.
+2. Checkout
+3. `make deploy`
+4. Open your.ip:8000 on the informer device.
+5. Tap 'settings' and input your API key and the weather station code from WUnderground.
 
-## Setup
+* * * 
 
-To get an interactive development environment run:
-
-    lein figwheel
-
-and open your browser at [localhost:3449](http://localhost:3449/).
-This will auto compile and send all changes to the browser without the
-need to reload. After the compilation process is complete, you will
-get a Browser Connected REPL. An easy way to try it is:
-
-    (js/alert "Am I connected?")
-
-and you should see an alert in the browser window.
-
-To clean all compiled files:
-
-    lein clean
-
-To create a production build run:
-
-    lein cljsbuild once min
-
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL. 
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
+(c) 2015 Leonid Shevtsov
