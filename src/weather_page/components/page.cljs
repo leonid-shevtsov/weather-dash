@@ -8,12 +8,14 @@
             [cljs-time.format :as tf]
             [cljs-time.core :as t]))
 
-(defcomponent page [{{time :time} :conditions :as data} _owner]
+(defcomponent page [{:keys [error api-error] {time :time} :conditions :as data} _owner]
   (render [_]
     (html [:div
            [:.settings-link [:a {:href "javascript:false" :onClick #(nav! "/settings")} "настройки"]]
-           (if time
+           (when error [:div error])
+           (when api-error [:div api-error])
+           (when time
              (list
-               [:.updated-at "обновлено в " (tf/unparse :hour-minute (t/to-default-time-zone time))]
+               [:.updated-at "обновлено в " (tf/unparse (tf/formatters :hour-minute) (t/to-default-time-zone time))]
                (om/build conditions (:conditions data))
                (om/build forecast-chart data)))])))

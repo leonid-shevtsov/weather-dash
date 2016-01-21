@@ -120,4 +120,5 @@
     (js/clearTimeout timeout-id)))
 
 (defn can-fetch? []
-  (and (get-in @app-cursor [:config :api-key]) (get-in @app-cursor [:config :station-id])))
+  (and (not-empty (get-in @app-cursor [:config :api-key]))
+       (not-empty (get-in @app-cursor [:config :station-id]))))

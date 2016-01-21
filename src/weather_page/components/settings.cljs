@@ -4,7 +4,8 @@
             [sablono.core :refer-macros [html]]
             [weather-page.routing :refer [nav!]]
             [weather-page.state :refer [app-state]]
-            [weather-page.data-fetcher :refer [start-fetching stop-fetching]]))
+            [weather-page.data-fetcher :refer [start-fetching stop-fetching]]
+            [weather-page.local-storage :refer [write-config]]))
 
 (defn input-updater-fn [cursor path]
   (fn [event]
@@ -12,6 +13,7 @@
 
 (defn apply-settings [event]
   (.preventDefault event)
+  (write-config (:config @app-state))
   (stop-fetching)
   (start-fetching)
   (nav! "/"))

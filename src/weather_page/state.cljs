@@ -1,23 +1,24 @@
 (ns weather-page.state
   (:require [om.core :as om]
-            [alandipert.storage-atom :refer [local-storage]]))
+            [weather-page.local-storage :refer [read-config]]))
 
-(def default-state {:route   :index
-                    :config {:api-key    ""
-                             :lang       "RU"
-                             :station-id ""
-                             :units      "metric"}
-                    :fetch {}
-                    :fetch-timeout {}
-                    :location   {:latitude  0
-                                 :longitude 0}
-                    :conditions {:time        nil
-                                 :weather     ""
-                                 :temperature 0
-                                 :feelslike   0
-                                 :wind        0
-                                 :wind_kph    0}
-                    :forecast   []})
+(def default-config {:api-key    ""
+                     :lang       "RU"
+                     :station-id ""
+                     :units      "metric"})
 
-(defonce app-state (local-storage (atom default-state) :app-state))
+(defonce app-state (atom {:route         :index
+                          :config        (or (read-config) default-config)
+                          :fetch         {}
+                          :fetch-timeout {}
+                          :location      {:latitude  0
+                                          :longitude 0}
+                          :conditions    {:time        nil
+                                          :weather     ""
+                                          :temperature 0
+                                          :feelslike   0
+                                          :wind        0
+                                          :wind_kph    0}
+                          :forecast      []}))
+
 (defonce app-cursor (om/root-cursor app-state))
