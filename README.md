@@ -10,6 +10,12 @@ This is a weather page designed for use in various hardware informer screens.  I
 4. Open your.ip:8000 on the informer device.
 5. Tap 'settings' and input your API key and the weather station code from WUnderground.
 
+## Development
+
+1. Checkout the project
+2. `lein figwheel`
+3. Open http://localhost:3450 
+
 * * * 
 
 (c) 2015 Leonid Shevtsov
