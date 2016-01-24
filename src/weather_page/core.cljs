@@ -6,7 +6,7 @@
 
 (enable-console-print!)
 
-(om/root router app-state {:target (.getElementById js/document "app")})
+(om/root router app-state {:target (.getElementById js/document "app") :shared {:config (get app-cursor :config)}})
 
 ; Must only happen after om/root has been called
 (defonce fetch-default

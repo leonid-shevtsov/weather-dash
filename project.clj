@@ -15,7 +15,8 @@
                  [cljs-ajax "0.5.3"]
                  [cljsjs/highcharts "4.1.10-1"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+                 [com.taoensso/tower "3.1.0-beta3"]]
 
   :plugins [[lein-cljsbuild "1.1.2"]
             [lein-figwheel "0.5.0-3"]

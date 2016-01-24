@@ -7,7 +7,7 @@
             [weather-page.charts :refer [highchart]]))
 
 (defonce setup-highcharts
-         (.setOptions js/Highcharts (clj->js {:global {:useUTC false} :lang {:shortMonths ["Янв" "Фев" "Мар" "Апр" "Май" "Июн" "Июл" "Авг" "Сен" "Окт" "Ноя" "Дек"]}})))
+         (.setOptions js/Highcharts (clj->js {:global {:useUTC false} :lang {:shortMonths (range 1 12)}})))
 
 (defn average-color [color-1 color-2 fraction-1 fraction-2]
   (map #(Math/round (+ (* %1 fraction-1)
