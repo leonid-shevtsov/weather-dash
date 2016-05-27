@@ -12,7 +12,7 @@
 (deftest test-extract-keys
   (is (= ((subj/extract-keys {:foo "bar" :baz 0}
                              {:foo identity :baz inc})
-           {:foo "bar" :baz 1}))))
+          {:foo "bar" :baz 1}))))
 
 (deftest test-extract-conditions
   (is (= (subj/extract-conditions :metric fixtures/conditions-response)

@@ -12,7 +12,11 @@
   (let [downcase (.toLocaleLowerCase string)]
     (apply str (.toLocaleUpperCase (first downcase)) (rest downcase))))
 
-(defcomponent conditions [{:keys [feelslike temperature wind wind_kph weather icon_url]} owner]
+(defn wind-dir-icon [wind-degrees]
+  [:i {:class (str "wi wi-wind from-" wind-degrees "-deg")}])
+
+
+(defcomponent conditions [{:keys [feelslike temperature wind wind_kph wind_degrees weather icon_url]} owner]
   (render [_]
     (html [:.forecast
            [:.forecast-block
@@ -28,5 +32,5 @@
              [:i {:class (str "wi wi-wind-beaufort-" (kph->beaufort wind_kph))}]]
             [:.details
              (t :conditions/wind)
-             " " wind " "
+             " " (wind-dir-icon wind_degrees) " " wind " "
              (t (keyword (str "conditions.wind-units/" (:units @(om/get-shared owner :config)))))]]])))

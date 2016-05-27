@@ -15,13 +15,14 @@
    :longitude (float-key :observation_location :longitude)})
 
 (defn conditions-keys [units]
-  {:time        #(t/to-default-time-zone (tf/parse (get % :observation_time_rfc822)))
-   :weather     #(get % :weather)
-   :icon_url    #(get % :icon_url)
-   :temperature (float-key (if (= units :metric) :temp_c :temp_f))
-   :feelslike   (float-key (if (= units :metric) :feelslike_c :feelslike_f))
-   :wind        (float-key (if (= units :metric) :wind_kph :wind_mph))
-   :wind_kph    (float-key :wind_kph)})                     ; for Beaufort scale
+  {:time         #(t/to-default-time-zone (tf/parse (get % :observation_time_rfc822)))
+   :weather      #(get % :weather)
+   :icon_url     #(get % :icon_url)
+   :temperature  (float-key (if (= units :metric) :temp_c :temp_f))
+   :feelslike    (float-key (if (= units :metric) :feelslike_c :feelslike_f))
+   :wind         (float-key (if (= units :metric) :wind_kph :wind_mph))
+   :wind_kph     (float-key :wind_kph)                      ; for Beaufort scale
+   :wind_degrees #(js/parseInt (get % :wind_degrees) 10)})
 
 (defn forecast-keys [units]
   {:time          #(t/to-default-time-zone (tc/from-long (* 1000 (js/parseInt (get-in % [:FCTTIME :epoch]) 10))))

@@ -21,7 +21,7 @@
     <orderEntry type="library" name="Leiningen: cljsjs/highcharts:4.1.10-1" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/jquery:1.11.3-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react:0.13.3-0" level="project" />
-    <orderEntry type="library" name="Leiningen: clojure-complete:0.2.3" level="project" />
+    <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: com.andrewmcveigh/cljs-time:0.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.cemerick/clojurescript.test:0.2.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-clj:0.8.285" level="project" />
@@ -33,10 +33,14 @@
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.dataformat/jackson-dataformat-smile:2.5.3" level="project" />
     <orderEntry type="library" name="Leiningen: com.google.javascript/closure-compiler:v20151216" level="project" />
     <orderEntry type="library" name="Leiningen: com.googlecode.json-simple/json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.taoensso/encore:1.24.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.taoensso/timbre:3.4.0" level="project" />
+    <orderEntry type="library" name="Leiningen: com.taoensso/tower:3.1.0-beta3" level="project" />
     <orderEntry type="library" name="Leiningen: commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Leiningen: commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Leiningen: de.kotka/lazymap:3.1.0" level="project" />
-    <orderEntry type="library" name="Leiningen: environ:1.0.1" level="project" />
+    <orderEntry type="library" name="Leiningen: io.aviso/pretty:0.1.16" level="project" />
+    <orderEntry type="library" name="Leiningen: markdown-clj:0.9.65" level="project" />
     <orderEntry type="library" name="Leiningen: net.colourcoding/poppea:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.apache.httpcomponents/httpasyncclient:4.1.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.apache.httpcomponents/httpclient:4.5.1" level="project" />
@@ -53,7 +57,7 @@
     <orderEntry type="library" name="Leiningen: org.clojure/google-closure-library:0.0-20151016-61277aea" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer.jvm:0.6.9" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer:0.6.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.10" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.reader:1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Leiningen: org.javassist/javassist:3.18.1-GA" level="project" />
     <orderEntry type="library" name="Leiningen: org.mozilla/rhino:1.7R5" level="project" />

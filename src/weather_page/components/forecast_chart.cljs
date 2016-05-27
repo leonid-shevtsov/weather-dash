@@ -29,7 +29,12 @@
 (defn forecast-days [forecast]
   (map (comp t/to-default-time-zone tc/from-long)
        (distinct (map (comp tc/to-long t/at-midnight :time)
-                        forecast))))
+                      forecast))))
+
+(defn temp-lines []
+  (map #(merge {:width 3 :zIndex 1} (zipmap [:value :color] %&))
+       (range -20 40 10)
+       ["#3b0cbd" "#4444dd" "#12bdb9" "#69d025" "#d0c310" "#ff9933" "#ff3311"]))
 
 (defn forecast-bands [location forecast]
   (let [days (forecast-days forecast)
@@ -72,13 +77,12 @@
       (let [time-start (-> forecast first :time t/to-default-time-zone tc/to-long)
             time-interval (* 3600 1000)
             temp-line (map :temperature forecast)
-            feels-line (map :feelslike forecast)
             prec-line (map :precipitation forecast)
             prec-zones (precipitation-zones forecast)
             plot-bands (forecast-bands location forecast)
             plot-lines (forecast-lines forecast)
-            temp-min (- (apply min (concat temp-line feels-line)) 1)
-            temp-max (+ (apply max (concat temp-line feels-line)) 1)
+            temp-min (- (apply min temp-line) 1)
+            temp-max (+ (apply max temp-line) 1)
             common-series-config {:animation           false
                                   :pointStart          time-start
                                   :pointInterval       time-interval
@@ -97,7 +101,7 @@
                                       :xAxis   {:type         "datetime"
                                                 :plotBands    plot-bands
                                                 :plotLines    plot-lines
-                                                :labels       {:x 60 :overflow "justify" :style label-style}
+                                                 :labels       {:x 60 :overflow "justify" :style label-style}
                                                 :minPadding   0
                                                 :maxPadding   0
                                                 :tickInterval (* 86400 1000)}
@@ -109,7 +113,8 @@
                                                  :max           temp-max
                                                  :startOnTick   false
                                                  :endOnTick     false
-                                                 :tickInterval  5}
+                                                 :tickInterval  5
+                                                 :plotLines     (temp-lines)}
                                                 {:title         "Chance of rain"
                                                  :opposite      true
                                                  :visible       false
