@@ -4,8 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.8.51"]
                  [org.clojure/core.async "0.2.374"]
                  ;[cljsjs/react "0.14.3-0"]
                  ;[cljsjs/react-dom "0.14.3-1"]
@@ -13,14 +13,14 @@
                  [org.omcljs/om "0.9.0"]
                  [prismatic/om-tools "0.3.12"]
                  [cljs-ajax "0.5.3"]
-                 [cljsjs/highcharts "4.1.10-1"]
+                 [cljsjs/highcharts "4.2.5-1"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
                  [secretary "1.2.3"]
-                 [com.taoensso/tower "3.1.0-beta3"]]
+                 [com.taoensso/tower "3.1.0-beta4"]]
 
-  :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-3"]
-            [lein-doo "0.1.6"]]
+  :plugins [[lein-cljsbuild "1.1.3"]
+            [lein-figwheel "0.5.4-7"]
+            [lein-doo "0.1.7"]]
 
   :source-paths ["src"]
 
@@ -56,7 +56,7 @@
              :server-port 3450
              ;; :server-ip "127.0.0.1"
 
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
+             :css-dirs ["resources/public/css"]} ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
@@ -81,6 +81,6 @@
 
              ;; to configure a different figwheel logfile path
              ;; :server-logfile "tmp/logs/figwheel-logfile.log"
-             }
+
   :doo {:build "test"})
 
