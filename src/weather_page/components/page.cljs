@@ -9,14 +9,15 @@
             [cljs-time.format :as tf]
             [cljs-time.core :as t]))
 
-(defcomponent page [{:keys [error api-error] {time :time} :conditions :as data} _owner]
+(defcomponent page [{:keys [error api-error] {time :time} :conditions page :page :as data} _owner]
   (render [_]
-    (html [:div
-           [:.settings-link [:a {:href "javascript:false" :onClick #(nav! "/settings")} (t :page/settings)]]
-           (when error [:div error])
-           (when api-error [:div api-error])
-           (when time
-             (list
-               [:.updated-at (t :page/updated-at) (tf/unparse (tf/formatters :hour-minute) (t/to-default-time-zone time))]
-               (om/build conditions (:conditions data))
-               (om/build forecast-chart data)))])))
+    (let [tiny-font-style {:style {:font-size (/ (:width page) 60)}}]
+      (html [:div
+             [:.settings-link tiny-font-style [:a {:href "javascript:false" :onClick #(nav! "/settings")} (t :page/settings)]]
+             (when error tiny-font-style [:div error])
+             (when api-error tiny-font-style [:div api-error])
+             (when time
+               (list
+                 [:.updated-at tiny-font-style (t :page/updated-at) (tf/unparse (tf/formatters :hour-minute) (t/to-default-time-zone time))]
+                 (om/build conditions data)
+                 (om/build forecast-chart data)))]))))

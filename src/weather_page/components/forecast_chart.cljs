@@ -31,8 +31,8 @@
        (distinct (map (comp tc/to-long t/at-midnight :time)
                       forecast))))
 
-(defn temp-lines []
-  (map #(merge {:width 3 :zIndex 1} (zipmap [:value :color] %&))
+(defn temp-lines [page]
+  (map #(merge {:width (/ (:width page) 160) :zIndex 1} (zipmap [:value :color] %&))
        (range -20 40 10)
        ["#3b0cbd" "#4444dd" "#12bdb9" "#69d025" "#d0c310" "#ff9933" "#ff3311"]))
 
@@ -70,7 +70,7 @@
         time (map #(tc/to-long (:time %)) (rest forecast))]
     (map #(zipmap [:color :fillColor :value] %&) color color time)))
 
-(defn forecast-chart [{forecast :forecast location :location {time :time} :conditions} _owner]
+(defn forecast-chart [{page :page forecast :forecast location :location {time :time} :conditions} _owner]
   (reify
     om/IRender
     (render [_]
@@ -89,7 +89,7 @@
                                   :marker              {:enabled false}
                                   :enableMouseTracking false}
             label-style {:color :white :font-weight :bold}]
-        (om/build highchart {:width  480 :height 160
+        (om/build highchart {:width  (:width page) :height (/ (:height page) 2)
                              :config {:chart   {:type            "line"
                                                 :alignTicks      false
                                                 :backgroundColor "black"
@@ -104,7 +104,8 @@
                                                  :labels       {:x 60 :overflow "justify" :style label-style}
                                                 :minPadding   0
                                                 :maxPadding   0
-                                                :tickInterval (* 86400 1000)}
+                                                :tickInterval (* 86400 1000)
+                                                :tickWidth (/ (:width page) 480)}
                                       :yAxis   [{:title         "Temperature"
                                                  :allowDecimals false
                                                  :labels        {:style  label-style
@@ -114,7 +115,7 @@
                                                  :startOnTick   false
                                                  :endOnTick     false
                                                  :tickInterval  5
-                                                 :plotLines     (temp-lines)}
+                                                 :plotLines     (temp-lines page)}
                                                 {:title         "Chance of rain"
                                                  :opposite      true
                                                  :visible       false
@@ -134,10 +135,10 @@
                                                      {:data      temp-line
                                                       :name      "Temperature"
                                                       :type      "spline"
-                                                      :lineWidth 5
+                                                      :lineWidth (/ (:width page) 96)
                                                       :color     "rgb(195,5,0)"}
-                                                     {:data      feels-line
-                                                      :name      "FeelsLike"
-                                                      :type      "spline"
-                                                      :lineWidth 2
-                                                      :color     "rgba(240,50,0, 0.5)"}])}})))))
+                                                     (comment {:data      feels-line
+                                                               :name      "FeelsLike"
+                                                               :type      "spline"
+                                                               :lineWidth (/ (:width page) 240)
+                                                               :color     "rgba(240,50,0, 0.5)"})])}})))))

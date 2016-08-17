@@ -11,3 +11,9 @@
 ; Must only happen after om/root has been called
 (defonce fetch-default
          (when (can-fetch?) (start-fetching)))
+
+; FIXME lags; maybe find better way to do it, but it's not critical
+;(defonce update-window-size
+;         (.addEventListener js/window "resize"  #(om/update! app-cursor :page {:width (.-innerWidth js/window) :height (.-innerHeight js/window)}) 1))
+
+

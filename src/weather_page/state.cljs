@@ -13,6 +13,8 @@
                           :fetch-timeout {}
                           :location      {:latitude  0
                                           :longitude 0}
+                          :page {:width (.-innerWidth js/window)
+                                 :height (.-innerHeight js/window)}
                           :conditions    {:time        nil
                                           :weather     ""
                                           :temperature 0
