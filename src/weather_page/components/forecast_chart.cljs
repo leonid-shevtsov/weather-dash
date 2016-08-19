@@ -31,10 +31,14 @@
        (distinct (map (comp tc/to-long t/at-midnight :time)
                       forecast))))
 
-(defn temp-lines [page]
-  (map #(merge {:width (/ (:width page) 160) :zIndex 1} (zipmap [:value :color] %&))
-       (range -20 40 10)
-       ["#3b0cbd" "#4444dd" "#12bdb9" "#69d025" "#d0c310" "#ff9933" "#ff3311"]))
+(def celcius-line-data [[-20 "#3b0cbd"] [-10 "#4444dd"] [0 "#12bdb9"] [10 "#69d025"] [20 "#d0c310"] [30 "#ff9933"] [40 "#ff3311"]])
+(def fahrenheit-line-data [[0 "#3b0cbd"] [20 "#4444dd"] [40 "#12bdb9"] [60 "#69d025"] [80 "#d0c310"] [100 "#ff9933"] [120 "#ff3311"]])
+
+(defn temp-lines [units page]
+  (let [line-data (case units
+                    "metric" celcius-line-data
+                    "english" fahrenheit-line-data)]
+    (map #(merge {:width (/ (:width page) 160) :zIndex 1} (zipmap [:value :color] %1)) line-data)))
 
 (defn forecast-bands [location forecast]
   (let [days (forecast-days forecast)
@@ -70,7 +74,7 @@
         time (map #(tc/to-long (:time %)) (rest forecast))]
     (map #(zipmap [:color :fillColor :value] %&) color color time)))
 
-(defn forecast-chart [{page :page forecast :forecast location :location {time :time} :conditions} _owner]
+(defn forecast-chart [{page :page forecast :forecast location :location {units :units} :config} _owner]
   (reify
     om/IRender
     (render [_]
@@ -115,7 +119,7 @@
                                                  :startOnTick   false
                                                  :endOnTick     false
                                                  :tickInterval  5
-                                                 :plotLines     (temp-lines page)}
+                                                 :plotLines     (temp-lines units page)}
                                                 {:title         "Chance of rain"
                                                  :opposite      true
                                                  :visible       false
