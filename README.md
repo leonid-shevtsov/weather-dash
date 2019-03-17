@@ -4,11 +4,11 @@ This is a weather page designed for use in various hardware informer screens.  I
 
 ## Usage
 
-1. Go to the [WUnderground API page](http://www.wunderground.com/weather/api/) and create an "Anvil Developer" API key.
+1. Go to the [OpenWeatherMap API page](https://openweathermap.org/) and create an API key.
 2. Checkout
 3. `make deploy`
 4. Open your.ip:8000 on the informer device.
-5. Tap 'settings' and input your API key and the weather station code from WUnderground.
+5. Tap 'settings' and input your API key and the weather station code from OpenWeatherMap.
 
 ## Development
 
@@ -18,4 +18,4 @@ This is a weather page designed for use in various hardware informer screens.  I
 
 * * * 
 
-(c) 2015 Leonid Shevtsov
+(c) 2015-2019 Leonid Shevtsov

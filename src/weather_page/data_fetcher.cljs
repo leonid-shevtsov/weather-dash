@@ -5,51 +5,54 @@
             [cljs-time.local :as tl]
             [weather-page.state :refer [app-cursor]]
             [cljs-time.core :as t]
-            [cljs-time.format :as tf]))
+            [cljs-time.format :as tf]
+            [clojure.string :as s]))
 
 (defn float-key [& key-path]
   (fn [hash-map] (js/parseFloat (get-in hash-map key-path))))
 
 (def location-keys
-  {:latitude  (float-key :observation_location :latitude)
-   :longitude (float-key :observation_location :longitude)})
+  {:latitude  (float-key :coord :lat)
+   :longitude (float-key :coord :lon)})
 
 (defn conditions-keys [units]
-  {:time         #(t/to-default-time-zone (tf/parse (get % :observation_time_rfc822)))
-   :weather      #(get % :weather)
-   :icon_url     #(get % :icon_url)
-   :temperature  (float-key (if (= units :metric) :temp_c :temp_f))
-   :feelslike    (float-key (if (= units :metric) :feelslike_c :feelslike_f))
-   :wind         (float-key (if (= units :metric) :wind_kph :wind_mph))
-   :wind_kph     (float-key :wind_kph)                      ; for Beaufort scale
-   :wind_degrees #(js/parseInt (get % :wind_degrees) 10)})
+  {:time         #(t/to-default-time-zone (tc/from-long (* 1000 (get % :dt))))
+   :weather      #(get-in % [:weather 0 :description])
+   :icon_code    #(get-in % [:weather 0 :id])
+   :is_night     #(s/ends-with? (get-in % [:weather 0 :icon]) "n")
+
+   :temperature  #(.round js/Math (get-in % [:main :temp]))
+   :feelslike    #(.round js/Math  (get-in % [:main :temp])) ; TODO calculate feels like?
+   :wind         #(.round js/Math (get-in % [:wind :speed]))
+   :wind_kph     #(* (if (= units :metric) 3.6 1.61)  (get-in % [:wind :speed])) ; for Beaufort scale
+   :wind_degrees #(get-in % [:wind :deg])})
 
 (defn forecast-keys [units]
-  {:time          #(t/to-default-time-zone (tc/from-long (* 1000 (js/parseInt (get-in % [:FCTTIME :epoch]) 10))))
-   :temperature   (float-key :temp units)
-   :feelslike     (float-key :feelslike units)
-   :wind          (float-key :wspd units)
-   :precipitation (float-key :pop)
-   :cloudcover    (float-key :sky)
+  {:time          #(t/to-default-time-zone (tc/from-long (* 1000 (get % :dt))))
+   :temperature   #(.round js/Math (get-in % [:main :temp]))
+   :feelslike     #(.round js/Math (get-in % [:main :temp])) ; TODO calculate feels like?
+   :wind          #(get-in % [:wind :speed])
+   :precipitation #(/ (get-in % [:rain :3h]) 3)
+   :cloudcover    #(get-in % [:clouds :all])
    ; these two are always in metric because I need them for calculation
    ; rather than displays
-   :snow-amount   (float-key :snow :metric)
-   :rain-amount   (float-key :qpf :metric)})
+   :snow-amount   #(/ (get-in % [:snow :3h]) 3)
+   :rain-amount   #(/ (get-in % [:rain :3h]) 3)})
 
 (defn extract-keys [data keys]
   (reduce #(assoc %1 (get %2 0) ((get %2 1) data)) {} keys))
 
-(def forecast-limit 72) ; hours to display as forecast
+(def forecast-limit (/ 72 3)) ; 3-hour intervals to display as forecast
 
 (defn extract-conditions [units response]
-  (let [data (:current_observation response)
+  (let [data response
         location (extract-keys data location-keys)
         conditions (extract-keys data (conditions-keys units))]
     {:location location
      :conditions conditions}))
 
 (defn extract-forecast [units response]
-  (let [forecast-data (take forecast-limit (:hourly_forecast response))]
+  (let [forecast-data (take forecast-limit (:list response))]
     (map #(extract-keys % (forecast-keys units)) forecast-data)))
 
 (defn update-conditions [state-cursor response]
@@ -63,20 +66,18 @@
     (om/update! state-cursor :forecast forecast)))
 
 (defn conditions-url [config]
-  (str "https://api.wunderground.com"
-       "/api/"  (config :api-key)
-       "/conditions"
-       "/lang:" (config :lang)
-       "/q/" (config :station-id)
-       ".json"))
+  (str "https://api.openweathermap.org/data/2.5/weather"
+       "?lang=" (config :lang)
+       "&id=" (config :station-id)
+       "&units=" (config :units)
+       "&appid=" (config :api-key)))
 
 (defn forecast-url [config]
-  (str "https://api.wunderground.com"
-       "/api/"  (config :api-key)
-       "/hourly10day"
-       "/lang:" (config :lang)
-       "/q/" (config :station-id)
-       ".json"))
+  (str "https://api.openweathermap.org/data/2.5/forecast"
+       "?lang=" (config :lang)
+       "&id=" (config :station-id)
+       "&units=" (config :units)
+       "&appid=" (config :api-key)))
 
 (declare fetch-data-periodically)
 
@@ -94,15 +95,15 @@
       (delayed-fetch options timeout))))
 
 (defn handle-errors [{:keys [state-cursor] :as options} _response]
-  (om/update! state-cursor :error "Error contacting the WeatherUnderground server. Retrying in 1 minute...")
+  (om/update! state-cursor :error "Error contacting the OpenWeatherAPI server. Retrying in 1 minute...")
   (delayed-fetch options (* 60 1000)))
 
 (defn fetch-data-periodically [{:keys [url-fn state-cursor] :as options}]
   (GET (url-fn (:config @state-cursor))
-       {:response-format :json
-        :keywords?       true
-        :handler         #(store-data-and-reschedule options %)
-        :error-handler   #(handle-errors options %)}))
+    {:response-format :json
+     :keywords?       true
+     :handler         #(store-data-and-reschedule options %)
+     :error-handler   #(handle-errors options %)}))
 
 (defn start-fetching []
   (om/update! app-cursor :fetch {:conditions true :forecast true})

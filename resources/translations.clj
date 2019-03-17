@@ -12,8 +12,8 @@
                    :apply-settings "Apply settings"}
       :conditions {:feels-like "Feels like"
                    :wind       "Wind"
-                   :wind-units {:metric   "km/h"
-                                :english "mph"}}
+                   :wind-units {:metric   "m/s"
+                                :imperial "mph"}}
       :missing    "|Missing translation: [%1$s %2$s %3$s]|"}
  :ru {:page       {:updated-at "обновлено в "
                    :settings   "настройки"}
@@ -29,5 +29,5 @@
                    :apply-settings "Применить настройки"}
       :conditions {:feels-like "Кажется"
                    :wind       "Ветер"
-                   :wind-units {:metric   "км/ч"
-                                :english "миль/ч"}}}}
+                   :wind-units {:metric   "м/c"
+                                :imperial "миль/ч"}}}}

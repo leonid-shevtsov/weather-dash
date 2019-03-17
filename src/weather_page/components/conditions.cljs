@@ -16,9 +16,9 @@
   [:i {:class (str "wi wi-wind from-" wind-degrees "-deg")}])
 
 
-(defcomponent conditions [{{:keys [feelslike temperature wind wind_kph wind_degrees weather icon_url]} :conditions page :page} owner]
+(defcomponent conditions [{{:keys [feelslike temperature wind wind_kph wind_degrees weather icon_code is_night]} :conditions page :page} owner]
   (render [_]
-    (let [block-style {:style {:margin-top (/ (:height page) 15) :width (/ (:width page) 3) :vertical-align :middle}}
+    (let [block-style {:style {:margin-top (/ (:height page) 15) :width (/ (:width page) 3.1) :vertical-align :middle}}
           huge-text-style {:style {:font-size (/ (:width page) 6)}}
           small-text-style {:style {:font-size (/ (:width page) 30)}}]
       (html [:.forecast {:style {:width "100%" :height (/ (:height page) 2)}}
@@ -28,7 +28,7 @@
                (t :conditions/feels-like) ": " [:b feelslike "°"]]]
              [:.forecast-block block-style
               [:.huge huge-text-style
-               [:i {:class (str "wi wi-" (condition-icon icon_url))}]]
+               [:i {:class (str "wi wi-" (condition-icon icon_code is_night))}]]
               [:.details small-text-style (capitalize weather)]]
              [:.forecast-block block-style
               [:.huge huge-text-style

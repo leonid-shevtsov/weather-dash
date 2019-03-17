@@ -37,7 +37,7 @@
 (defn temp-lines [units page]
   (let [line-data (case units
                     "metric" celcius-line-data
-                    "english" fahrenheit-line-data)]
+                    "imperial" fahrenheit-line-data)]
     (map #(merge {:width (/ (:width page) 160) :zIndex 1} (zipmap [:value :color] %1)) line-data)))
 
 (defn forecast-bands [location forecast]
@@ -79,7 +79,7 @@
     om/IRender
     (render [_]
       (let [time-start (-> forecast first :time t/to-default-time-zone tc/to-long)
-            time-interval (* 3600 1000)
+            time-interval (* 3 3600 1000)
             temp-line (map :temperature forecast)
             prec-line (map :precipitation forecast)
             prec-zones (precipitation-zones forecast)

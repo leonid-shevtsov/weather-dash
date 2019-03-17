@@ -41,7 +41,7 @@
                      :on-change (input-updater-fn config :units)}] " " (t :settings/metric) " "
             [:input {:type      "radio"
                      :name      "units"
-                     :value     "english"
-                     :checked   (= units "english")
+                     :value     "imperial"
+                     :checked   (= units "imperial")
                      :on-change (input-updater-fn config :units)}] " " (t :settings/imperial) " "]
            [:.form-label [:button {:on-click apply-settings} (t :settings/apply-settings)]]])))
