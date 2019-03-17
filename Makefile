@@ -1,3 +1,5 @@
+dev: lein figwheel dev
+
 deploy: build local-server
 
 gh-pages: build commit-to-gh-branch
@@ -18,4 +20,3 @@ commit-to-gh-branch:
 	git commit -am "releasing gh-pages"; \
 	git push --force; \
 	git checkout master
-
